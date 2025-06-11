@@ -19,7 +19,7 @@ export default function LoginScreen() {
 
   const handleLogin = () => {
     if (email === 'test@gmail.com' && password === '123456') {
-      router.push('/');
+      router.push('/historialMD' as any);
     } else {
       alert('Invalid credentials');
     }
