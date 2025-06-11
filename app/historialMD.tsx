@@ -1,82 +1,92 @@
+import { useRouter } from 'expo-router';
 import React from 'react';
-import { Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Dimensions, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 export default function HistorialMD() {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    // Aquí puedes limpiar el estado de sesión si es necesario, por ejemplo:
+    // AsyncStorage.clear(); (si usas AsyncStorage)
+    router.push('/login');
+  };
+
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.bannerContainer}>
-        <Text style={styles.bannerText}>Hola, Sr. Smith!</Text>
-        <Text style={styles.bannerSubText}>Hoy es un gran día para cuidar colitas</Text>
-        <Image source={require('@/assets/images/Imagen4.jpg')} style={styles.bannerImage} />
+    <ImageBackground
+      source={require('@/assets/images/huellitas-blancas.png')}
+      style={styles.container}
+      resizeMode="repeat"
+      imageStyle={{ opacity: 0.5 }}
+    >
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <Text style={styles.logoutButtonText}>Logout</Text>
+        </TouchableOpacity>
+        <Text style={styles.greeting}>Hola, Sr. Smith!</Text>
+        <Text style={styles.subtitle}>Hoy es un gran día para cuidar colitas</Text>
       </View>
 
       <TextInput style={styles.searchInput} placeholder="Search..." placeholderTextColor="#555" />
 
-      <View style={styles.navMenu}>
-        <Text style={styles.navItem}>Recordatorio</Text>
-        <Text style={styles.navItem}>Citas</Text>
-        <Text style={[styles.navItem, styles.activeNavItem]}>Historial MD</Text>
-        <Text style={styles.navItem}>Chat</Text>
-      </View>
-
       <View style={styles.card}>
-        <View style={styles.profileContainer}>
-          <View style={styles.profileCircle} />
-          <Text style={styles.petName}>GARFIELD</Text>
-        </View>
-
+        <Text style={styles.petName}>GARFIELD</Text>
         <Text style={styles.sectionTitle}>HISTORIAL</Text>
 
-        <View style={styles.sectionBox}>
-          <Text style={styles.sectionHeader}>Vacunas</Text>
-          <Text style={styles.sectionText}>Rabia</Text>
-          <Text style={styles.sectionText}>Parvovirus</Text>
+        <View style={styles.itemCard}>
+          <Text style={styles.itemTitle}>Vacunas</Text>
+          <Text style={styles.itemDetails}>Rabia, Parvovirus</Text>
+          <TouchableOpacity style={styles.addButton}>
+            <Text style={styles.addButtonText}>+</Text>
+          </TouchableOpacity>
         </View>
 
-        <View style={styles.sectionBox}>
-          <Text style={styles.sectionHeader}>Consultas</Text>
-          <Text style={styles.sectionText}>Dr. Cuper</Text>
-          <Text style={styles.sectionText}>Garfield</Text>
+        <View style={styles.itemCard}>
+          <Text style={styles.itemTitle}>Consultas</Text>
+          <Text style={styles.itemDetails}>Dr. Cuper, Garfield</Text>
+          <TouchableOpacity style={styles.addButton}>
+            <Text style={styles.addButtonText}>+</Text>
+          </TouchableOpacity>
         </View>
 
-        <View style={styles.sectionBox}>
-          <Text style={styles.sectionHeader}>Tratamientos</Text>
-          <Text style={styles.sectionText}>Alergia</Text>
-          <Text style={styles.sectionText}>Parvovirus</Text>
+        <View style={styles.itemCard}>
+          <Text style={styles.itemTitle}>Tratamientos</Text>
+          <Text style={styles.itemDetails}>Alergia, Parvovirus</Text>
+          <TouchableOpacity style={styles.addButton}>
+            <Text style={styles.addButtonText}>+</Text>
+          </TouchableOpacity>
         </View>
       </View>
-    </ScrollView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#003b3b',
-    paddingHorizontal: 10,
-  },
-  bannerContainer: {
-    backgroundColor: '#b3f0e6',
-    padding: 20,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    paddingTop: 60,
     alignItems: 'center',
+    justifyContent: 'flex-start',
   },
-  bannerText: {
+  header: {
+    padding: 20,
+    backgroundColor: '#4E8E8E',
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: 20,
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+    zIndex: 1,
+  },
+  greeting: {
+    color: '#fff',
+    fontSize: 20,
     fontWeight: 'bold',
-    fontSize: 18,
-    color: '#000',
   },
-  bannerSubText: {
-    fontSize: 12,
-    color: '#333',
-  },
-  bannerImage: {
-    width: 60,
-    height: 60,
-    marginTop: 10,
+  subtitle: {
+    color: '#fff',
+    fontSize: 16,
   },
   searchInput: {
     backgroundColor: '#fff',
@@ -84,60 +94,66 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 10,
     paddingLeft: 20,
+    zIndex: 2,
+    width: '90%',
   },
-  navMenu: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 20,
-  },
-  navItem: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  activeNavItem: {
-    textDecorationLine: 'underline',
-    fontWeight: 'bold',
-  },
-  card: {
-    backgroundColor: '#e5f9f6',
+  logoutButton: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    backgroundColor: '#ff6666',
+    padding: 10,
     borderRadius: 20,
-    padding: 20,
-    alignItems: 'center',
+    zIndex: 2,
   },
-  profileContainer: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  profileCircle: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#ccc',
-  },
-  petName: {
-    marginTop: 10,
+  logoutButtonText: {
+    color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
   },
-  sectionTitle: {
+  card: {
+    width: '90%',
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  petName: {
+    fontSize: 24,
     fontWeight: 'bold',
-    fontSize: 14,
     marginBottom: 10,
   },
-  sectionBox: {
-    backgroundColor: '#a0f8e4',
-    borderRadius: 15,
-    width: '100%',
-    padding: 15,
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
     marginBottom: 15,
   },
-  sectionHeader: {
-    fontWeight: 'bold',
-    marginBottom: 5,
+  itemCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 15,
   },
-  sectionText: {
-    fontSize: 13,
-    color: '#333',
+  itemTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  itemDetails: {
+    fontSize: 14,
+    color: '#888',
+  },
+  addButton: {
+    padding: 10,
+    backgroundColor: '#00f5a0',
+    borderRadius: 20,
+  },
+  addButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 18,
   },
 });
