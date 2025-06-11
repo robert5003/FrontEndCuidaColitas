@@ -75,7 +75,7 @@ export default function LoginScreen() {
       source={require('@/assets/images/huellitas-blancas.png')}
       style={styles.container}
       resizeMode="repeat"
-      imageStyle={{ opacity: 0.15 }}
+      imageStyle={{ opacity: 0.5 }}
     >
       <View style={styles.headerShape} />
 
@@ -129,7 +129,9 @@ export default function LoginScreen() {
           </>
         )}
 
-        <Text style={styles.forgot}>Forgot Password?</Text>
+        <TouchableOpacity onPress={() => router.push('/restaurarcontra' as any)}>
+          <Text style={styles.forgot}>Forgot Password?</Text>
+        </TouchableOpacity>
       </Animated.View>
 
       <Image
@@ -224,6 +226,7 @@ const styles = StyleSheet.create({
   },
   forgot: {
     marginTop: 10,
+    fontWeight: 'bold',
     color: '#555'
   },
   logo: {
