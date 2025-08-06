@@ -1,35 +1,58 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
 import {
-  Dimensions,
-  Image,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Dimensions,
+    Image,
+    ImageBackground,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
-export default function HistorialMD() {
+const detalles = {
+  vacunas: [
+    {
+      nombre: 'Rabia',
+      descripcion: 'Protege contra el virus de la rabia, que afecta el sistema nervioso.',
+    },
+    {
+      nombre: 'Parvovirus',
+      descripcion:
+        'Previene infecciones virales intestinales graves en cachorros y perros adultos.',
+    },
+  ],
+  consultas: [
+    {
+      nombre: 'Dr. Cuper',
+      descripcion: 'Consulta general para Garfield realizada por el Dr. Cuper.',
+    },
+  ],
+  tratamientos: [
+    {
+      nombre: 'Alergia',
+      descripcion: 'Tratamiento para síntomas alérgicos.',
+    },
+    {
+      nombre: 'Parvovirus',
+      descripcion: 'Tratamiento de apoyo para combatir el parvovirus.',
+    },
+  ],
+};
+
+export default function DetalleHistorial() {
   const router = useRouter();
+  const { tipo } = useLocalSearchParams();
 
   const handleLogout = () => {
     router.push('/login');
   };
 
-  interface NavigateParams {
-    tipo: string;
-  }
-
-  type SectionType = 'vacunas' | 'consultas' | 'tratamientos' | string;
-
-  const handleNavigate = (section: SectionType): void => {
-    router.push({ pathname: '/detalleHistorial' as any, params: { tipo: section } });
-  };
+  const data = detalles[tipo as keyof typeof detalles] || [];
 
   return (
     <ImageBackground
@@ -65,42 +88,33 @@ export default function HistorialMD() {
 
       {/* BARRA DE NAVEGACIÓN (BAJO EL INPUT) */}
       <View style={styles.topNav}>
-        <TouchableOpacity onPress={() => router.push('/recordatorio' as any)}>
+        <TouchableOpacity onPress={() => router.push('/recordatorio')}>
           <Text style={styles.navText}>Recordatorio</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push('/citas' as any)}>
+        <TouchableOpacity onPress={() => router.push('/citas')}>
           <Text style={styles.navText}>Citas</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push('/historialMD' as any)}>
+        <TouchableOpacity onPress={() => router.push('/historialMD')}>
           <Text style={[styles.navText, styles.activeNav]}>Historial MD</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push('/chat' as any)}>
-          <Text style={styles.navText}>Chat</Text>
+        <TouchableOpacity>
+          <Text style={styles.navText}>{tipo?.toString().charAt(0).toUpperCase() + tipo?.toString().slice(1)}</Text>
         </TouchableOpacity>
       </View>
 
       {/* CONTENIDO PRINCIPAL */}
       <View style={styles.card}>
-        <Text style={styles.petName}>GARFIELD</Text>
-        <Text style={styles.sectionTitle}>HISTORIAL</Text>
-
-        <View style={styles.itemRow}>
-          <Text style={styles.itemTitle}>Vacunas</Text>
-          <Text style={styles.itemDetails}>Rabia, Parvovirus</Text>
-          <TouchableOpacity onPress={() => handleNavigate('vacunas')} style={styles.checkCircle} />
-        </View>
-
-        <View style={styles.itemRow}>
-          <Text style={styles.itemTitle}>Consultas</Text>
-          <Text style={styles.itemDetails}>Dr. Cuper, Garfield</Text>
-          <TouchableOpacity onPress={() => handleNavigate('consultas')} style={styles.checkCircle} />
-        </View>
-
-        <View style={styles.itemRow}>
-          <Text style={styles.itemTitle}>Tratamientos</Text>
-          <Text style={styles.itemDetails}>Alergia, Parvovirus</Text>
-          <TouchableOpacity onPress={() => handleNavigate('tratamientos')} style={styles.checkCircle} />
-        </View>
+        <Text style={styles.petName}>{tipo?.toString().charAt(0).toUpperCase() + tipo?.toString().slice(1)}</Text>
+        {data.length > 0 ? (
+          data.map((item, index) => (
+            <View key={index} style={styles.detailBox}>
+              <Text style={styles.detailTitle}>{item.nombre}</Text>
+              <Text style={styles.detailDescription}>{item.descripcion}</Text>
+            </View>
+          ))
+        ) : (
+          <Text>No hay información disponible.</Text>
+        )}
       </View>
     </ImageBackground>
   );
@@ -130,7 +144,9 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   headerContent: {
-    flex: 1,
+    flex: 2,
+    marginLeft: 10,
+    marginRight: 10,
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
@@ -171,6 +187,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-around',
+    alignItems: 'center',
     marginBottom: 15,
   },
   navText: {
@@ -191,32 +208,21 @@ const styles = StyleSheet.create({
   petName: {
     fontSize: 24,
     fontWeight: 'bold',
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginVertical: 10,
-  },
-  itemRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     marginBottom: 15,
+    color: '#000',
   },
-  itemTitle: {
+  detailBox: {
+    backgroundColor: '#eee',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 10,
+  },
+  detailTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    flex: 1,
   },
-  itemDetails: {
-    color: '#888',
-    flex: 2,
-    textAlign: 'center',
-  },
-  checkCircle: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: '#00f5a0',
+  detailDescription: {
+    fontSize: 14,
+    color: '#444',
   },
 });

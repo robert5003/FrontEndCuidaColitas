@@ -21,7 +21,7 @@ export default function LoginScreen() {
     if (email === 'test@gmail.com' && password === '123456') {
       router.push('/historialMD' as any);
     } else {
-      alert('Invalid credentials');
+      alert('the email or password is incorrect');
     }
   };
 

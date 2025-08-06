@@ -1,16 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import {
-  Dimensions,
-  Image,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Dimensions, Image, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -19,16 +10,6 @@ export default function HistorialMD() {
 
   const handleLogout = () => {
     router.push('/login');
-  };
-
-  interface NavigateParams {
-    tipo: string;
-  }
-
-  type SectionType = 'vacunas' | 'consultas' | 'tratamientos' | string;
-
-  const handleNavigate = (section: SectionType): void => {
-    router.push({ pathname: '/detalleHistorial' as any, params: { tipo: section } });
   };
 
   return (
@@ -48,7 +29,7 @@ export default function HistorialMD() {
           <Text style={styles.subtitle}>Hoy es un gran día para cuidar colitas</Text>
         </View>
         <Image
-          source={require('@/assets/images/Imagen4.png')}
+          source={require('@/assets/images/Imagen6.png')} 
           style={styles.headerImage}
         />
       </View>
@@ -69,7 +50,7 @@ export default function HistorialMD() {
           <Text style={styles.navText}>Recordatorio</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push('/citas' as any)}>
-          <Text style={styles.navText}>Citas</Text>
+          <Text style={styles.navText}>Citas</Text> 
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push('/historialMD' as any)}>
           <Text style={[styles.navText, styles.activeNav]}>Historial MD</Text>
@@ -87,24 +68,25 @@ export default function HistorialMD() {
         <View style={styles.itemRow}>
           <Text style={styles.itemTitle}>Vacunas</Text>
           <Text style={styles.itemDetails}>Rabia, Parvovirus</Text>
-          <TouchableOpacity onPress={() => handleNavigate('vacunas')} style={styles.checkCircle} />
+          <View style={styles.checkCircle} />
         </View>
 
         <View style={styles.itemRow}>
           <Text style={styles.itemTitle}>Consultas</Text>
           <Text style={styles.itemDetails}>Dr. Cuper, Garfield</Text>
-          <TouchableOpacity onPress={() => handleNavigate('consultas')} style={styles.checkCircle} />
+          <View style={styles.checkCircle} />
         </View>
 
         <View style={styles.itemRow}>
           <Text style={styles.itemTitle}>Tratamientos</Text>
           <Text style={styles.itemDetails}>Alergia, Parvovirus</Text>
-          <TouchableOpacity onPress={() => handleNavigate('tratamientos')} style={styles.checkCircle} />
+          <View style={styles.checkCircle} />
         </View>
       </View>
     </ImageBackground>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -130,7 +112,9 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   headerContent: {
-    flex: 1,
+    flex: 2,
+    marginLeft: 10,
+    marginRight: 10,
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
@@ -220,3 +204,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#00f5a0',
   },
 });
+
+
