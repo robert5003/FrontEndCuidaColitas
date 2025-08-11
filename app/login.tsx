@@ -75,7 +75,7 @@ export default function LoginScreen() {
       source={require('@/assets/images/huellitas-blancas.png')}
       style={styles.container}
       resizeMode="repeat"
-      imageStyle={{ opacity: 0.5 }}
+      imageStyle={{ opacity: 0.3 }}
     >
       <View style={styles.headerShape} />
 

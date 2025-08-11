@@ -20,25 +20,47 @@ export default function RestablecerPassword() {
   const [nuevaPassword, setNuevaPassword] = useState('');
   const [confirmarPassword, setConfirmarPassword] = useState('');
 
-  const handleRestablecer = () => {
-    // Aquí iría la conexión al backend con fetch/axios (POST a endpoint Laravel)
-    console.log('Correo:', email);
-    console.log('Nueva contraseña:', nuevaPassword);
-    console.log('Confirmar contraseña:', confirmarPassword);
+  const handleRestablecer = async () => {
+    // Validaciones antes de enviar
+    if (!email || !nuevaPassword || !confirmarPassword) {
+      Alert.alert('Error', 'Todos los campos son obligatorios');
+      return;
+    }
 
-    Alert.alert('Éxito', 'Contraseña actualizada correctamente', [
-      {
-        text: 'OK',
-        onPress: () => router.replace('/login'), // Redirige al login
-      },
-    ]);
+    if (nuevaPassword !== confirmarPassword) {
+      Alert.alert('Error', 'Las contraseñas no coinciden');
+      return;
+    }
+
+    try {
+      // Simulación de envío al backend (puedes reemplazar con tu URL de Laravel)
+      /*
+      const response = await fetch('http://localhost:8000/api/restablecer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password: nuevaPassword }),
+      });
+
+      if (!response.ok) throw new Error('No se pudo restablecer la contraseña');
+      */
+
+      console.log('Correo:', email);
+      console.log('Nueva contraseña:', nuevaPassword);
+      console.log('Confirmar contraseña:', confirmarPassword);
+
+      Alert.alert('Éxito', 'Contraseña actualizada correctamente', [
+        { text: 'OK', onPress: () => router.replace('/login') },
+      ]);
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'Algo salió mal');
+    }
   };
 
   return (
     <ImageBackground
       source={require('@/assets/images/huellitas-blancas.png')}
       style={styles.background}
-      imageStyle={{ opacity: 0.5 }}
+      imageStyle={{ opacity: 0.3 }}
       resizeMode="repeat"
     >
       <View style={styles.topContainer} />
@@ -52,6 +74,8 @@ export default function RestablecerPassword() {
           style={styles.input}
           placeholder="Ingrese su correo"
           placeholderTextColor="#999"
+          keyboardType="email-address"
+          autoCapitalize="none"
           onChangeText={setEmail}
           value={email}
         />
@@ -108,7 +132,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     alignItems: 'center',
-    marginTop: 125, 
+    marginTop: 125,
     marginBottom: 60,
     zIndex: 1,
   },

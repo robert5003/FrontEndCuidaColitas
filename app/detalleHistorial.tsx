@@ -2,14 +2,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
 import {
-    Dimensions,
-    Image,
-    ImageBackground,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Dimensions,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
 
 const { width } = Dimensions.get('window');
@@ -59,7 +59,7 @@ export default function DetalleHistorial() {
       source={require('@/assets/images/huellitas-blancas.png')}
       style={styles.container}
       resizeMode="repeat"
-      imageStyle={{ opacity: 0.2 }}
+      imageStyle={{ opacity: 0.3 }}
     >
       {/* ENCABEZADO SUPERIOR */}
       <View style={styles.header}>
@@ -70,10 +70,16 @@ export default function DetalleHistorial() {
           <Text style={styles.greeting}>Hola, Sr. Smith!</Text>
           <Text style={styles.subtitle}>Hoy es un gran día para cuidar colitas</Text>
         </View>
-        <Image
-          source={require('@/assets/images/Imagen4.png')}
-          style={styles.headerImage}
-        />
+          {/* Botón de perfil (mismo tamaño que antes: 40x40) */}
+    <TouchableOpacity
+          onPress={() => router.push('/PerfilUsua' as any)}
+          style={styles.profileButton}
+          activeOpacity={0.8}
+          accessibilityLabel="Abrir perfil"
+          accessibilityHint="Te llevará a la pantalla de perfil">
+    {/* Usa el icono o una imagen. Dejo el icono por defecto: */}
+    <Ionicons name="person-circle-outline" size={40} color="#3a3a3a" />
+    </TouchableOpacity>
       </View>
 
       {/* INPUT DE BÚSQUEDA */}
@@ -83,6 +89,10 @@ export default function DetalleHistorial() {
           style={styles.searchInput}
           placeholder="Search..."
           placeholderTextColor="#555"
+        />
+        <Image
+        source={require('@/assets/images/Imagen4.png')}
+        style={styles.headerImage}
         />
       </View>
 
@@ -151,6 +161,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
   },
+  profileButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    overflow: 'hidden',
+  },
   greeting: {
     color: '#fff',
     fontSize: 18,
@@ -169,8 +188,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#fff',
     borderRadius: 25,
-    width: '90%',
-    padding: 10,
+    width: '100%',
+    paddingVertical: 5,
+    paddingHorizontal: 12,
     alignItems: 'center',
     marginBottom: 10,
   },
